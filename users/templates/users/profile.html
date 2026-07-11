@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Profile</title>
+
+</head>
+
+<body>
+
+<h1>👤 Student Profile</h1>
+
+<hr>
+
+{% if profile.profile_picture %}
+
+<img
+src="{{ profile.profile_picture.url }}"
+width="150"
+height="150">
+
+{% else %}
+
+<p>No Profile Picture</p>
+
+{% endif %}
+
+<h2>
+
+{{ user.username }}
+
+</h2>
+
+<p>
+
+Email:
+{{ user.email }}
+
+</p>
+
+<p>
+
+Phone:
+{{ profile.phone }}
+
+</p>
+
+<p>
+
+Bio:
+
+{{ profile.bio }}
+
+</p>
+
+</body>
+
+</html>

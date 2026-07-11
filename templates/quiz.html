@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Quiz</title>
+
+</head>
+
+<body>
+
+<h1>{{ course.title }} Quiz</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {% for q in questions %}
+
+    <hr>
+
+    <h3>{{ q.question }}</h3>
+
+    <label>
+
+        <input
+            type="radio"
+            name="{{ q.id }}"
+            value="{{ q.option1 }}">
+
+        {{ q.option1 }}
+
+    </label>
+
+    <br>
+
+    <label>
+
+        <input
+            type="radio"
+            name="{{ q.id }}"
+            value="{{ q.option2 }}">
+
+        {{ q.option2 }}
+
+    </label>
+
+    <br>
+
+    <label>
+
+        <input
+            type="radio"
+            name="{{ q.id }}"
+            value="{{ q.option3 }}">
+
+        {{ q.option3 }}
+
+    </label>
+
+    <br>
+
+    <label>
+
+        <input
+            type="radio"
+            name="{{ q.id }}"
+            value="{{ q.option4 }}">
+
+        {{ q.option4 }}
+
+    </label>
+
+    {% endfor %}
+
+    <br><br>
+
+    <button class="btn">
+
+        Submit Quiz
+
+    </button>
+
+</form>
+
+</body>
+
+</html>

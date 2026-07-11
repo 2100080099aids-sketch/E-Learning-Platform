@@ -1,0 +1,214 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>{{ course.title }}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<div class="course-detail">
+
+    <div class="course-left">
+
+        {% if course.image %}
+
+        <img
+            src="{{ course.image.url }}"
+            class="detail-image"
+        >
+
+        {% endif %}
+
+        <h1>{{ course.title }}</h1>
+
+        <p>
+
+            {{ course.description }}
+
+        </p>
+
+        <hr>
+
+        <h2>📚 Course Curriculum</h2>
+
+        {% if lessons %}
+
+        <ol>
+
+            {% for lesson in lessons %}
+
+           <li>
+
+<a
+href="{% url 'lesson_detail' lesson.id %}">
+
+{{ lesson.title }}
+
+</a>
+
+-
+
+{{ lesson.duration }}
+
+</li>
+
+            {% endfor %}
+
+        </ol>
+
+        {% else %}
+
+        <p>No lessons available.</p>
+
+        {% endif %}
+
+    </div>
+
+    <div class="course-right">
+
+        <h2>Course Information</h2>
+
+        <hr>
+
+        <p>
+
+        👨 <strong>Instructor:</strong>
+
+        {{ course.instructor }}
+
+        </p>
+
+        <p>
+
+        📂 <strong>Category:</strong>
+
+        {{ course.category }}
+
+        </p>
+
+        <p>
+
+        ⏱ <strong>Duration:</strong>
+
+        {{ course.duration }}
+
+        </p>
+
+        <p>
+
+        ⭐ <strong>Rating:</strong>
+
+        {{ course.rating }}
+
+        </p>
+
+        <h2>
+
+            ₹ {{ course.price }}
+
+        </h2>
+
+        <br>
+
+        <a
+            href="{% url 'enroll' course.id %}"
+            class="btn"
+        >
+
+        Enroll Now
+
+        </a>
+     <br><br>
+
+<a href="{% url 'quiz' course.id %}" class="btn">
+
+📝 Take Quiz
+
+</a>   
+
+    </div>
+
+</div>
+<hr>
+
+<h2>⭐ Reviews</h2>
+
+{% if user.is_authenticated %}
+
+<form method="POST" action="{% url 'add_review' course.id %}">
+
+    {% csrf_token %}
+
+    <label>Rating (1-5)</label>
+
+    <input
+        type="number"
+        name="rating"
+        min="1"
+        max="5"
+        required>
+
+    <br><br>
+
+    <textarea
+        name="comment"
+        rows="4"
+        cols="50"
+        placeholder="Write your review..."
+        required>
+    </textarea>
+
+    <br><br>
+
+    <button class="btn">
+        Submit Review
+    </button>
+
+</form>
+
+{% endif %}
+
+<hr>
+
+{% for review in reviews %}
+
+<div class="card">
+
+    <h3>
+
+        ⭐ {{ review.rating }}/5
+
+    </h3>
+
+    <p>
+
+        {{ review.comment }}
+
+    </p>
+
+    <strong>
+
+        — {{ review.user.username }}
+
+    </strong>
+
+</div>
+
+<br>
+
+{% empty %}
+
+<p>No reviews yet.</p>
+
+{% endfor %}
+
+</body>
+
+</html>

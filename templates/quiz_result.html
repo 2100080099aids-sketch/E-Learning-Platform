@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Quiz Result</title>
+
+</head>
+
+<body>
+
+<h1>🎉 Quiz Completed</h1>
+
+<hr>
+
+<h2>{{ course.title }}</h2>
+
+<h3>
+
+Your Score:
+
+{{ score }}/{{ total }}
+
+</h3>
+
+{% if score == total %}
+
+<h2 style="color:green;">
+
+Excellent!
+
+</h2>
+
+{% else %}
+
+<h2>
+
+Keep Practicing!
+
+</h2>
+
+{% endif %}
+
+<br>
+
+<a href="/dashboard/">
+
+Back to Dashboard
+
+</a>
+
+</body>
+
+</html>

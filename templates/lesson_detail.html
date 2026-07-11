@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>
+
+{{ lesson.title }}
+
+</title>
+
+<link
+rel="stylesheet"
+href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<h1>
+
+{{ lesson.title }}
+
+</h1>
+
+<p>
+
+{{ lesson.description }}
+
+</p>
+
+{% if lesson.video %}
+
+<video width="900" controls>
+
+    <source src="{{ lesson.video.url }}" type="video/mp4">
+
+</video>
+
+<br><br>
+
+<a href="{% url 'complete_lesson' lesson.id %}" class="btn">
+    Mark as Completed
+</a>
+
+{% else %}
+
+<p>No video uploaded.</p>
+
+{% endif %}
+<br><br>
+
+<a
+href="{% url 'course_detail' lesson.course.id %}">
+
+← Back to Course
+
+</a>
+
+</body>
+
+</html>
