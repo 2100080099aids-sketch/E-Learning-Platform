@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from core.models import LessonProgress
 from .models import Profile
 from django.http import HttpResponse
-from django.contrib.auth.models import User
 
 def register(request):
 

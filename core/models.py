@@ -17,6 +17,11 @@ class Course(models.Model):
         blank=True,
         null=True
     )
+    image_name = models.CharField(
+        max_length=100,
+        blank=True,
+        default=""
+    )
 
     students = models.ManyToManyField(
         User,
