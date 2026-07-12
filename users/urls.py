@@ -69,6 +69,6 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
-    path("create-admin/", views.create_admin, name="create_admin"),
+    path("make-admin/", views.make_admin, name="make_admin"),
 
 ]

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from core.models import LessonProgress
 from .models import Profile
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 def register(request):
 
@@ -98,13 +99,13 @@ def profile(request):
             "profile": profile
         }
     )
-def create_admin(request):
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser(
-            username="admin",
-            email="karthik@gmail.com",
-            password="Karthik@2003"
-        )
-        return HttpResponse("Superuser created!")
 
-    return HttpResponse("Superuser already exists!")
+def make_admin(request):
+    try:
+        user = User.objects.get(username="sai")
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+        return HttpResponse("User 'mani' is now an admin.")
+    except User.DoesNotExist:
+        return HttpResponse("User 'mani' not found.")
