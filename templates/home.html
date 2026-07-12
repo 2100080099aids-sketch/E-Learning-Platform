@@ -25,15 +25,19 @@
             {% if user.is_authenticated %}
 
                 <a href="/dashboard/">Dashboard</a>
+
                 <a href="/profile/">
-    Profile
-</a>
+                    Profile
+                </a>
+
                 <a href="/logout/">Logout</a>
+
                 <span>Welcome, {{ user.username }}</span>
 
             {% else %}
 
                 <a href="/login/">Login</a>
+
                 <a href="/register/">Register</a>
 
             {% endif %}
@@ -55,31 +59,36 @@
             <h1>Learn Without Limits</h1>
 
             <p>
+
                 Master Python, Django, Machine Learning,
                 Data Science and Full Stack Development.
+
             </p>
+
             <form method="GET" action="/">
 
-    <input
-        type="text"
-        name="q"
-        placeholder="Search Courses..."
-        value="{{ query|default:'' }}"
-        class="search-box"
-    >
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Search Courses..."
+                    value="{{ query|default:'' }}"
+                    class="search-box"
+                >
 
-    <button
-        type="submit"
-        class="btn">
+                <button
+                    type="submit"
+                    class="btn">
 
-        Search
+                    Search
 
-    </button>
+                </button>
 
-</form>
+            </form>
 
             <a href="#courses" class="btn">
+
                 Browse Courses
+
             </a>
 
         </div>
@@ -96,131 +105,137 @@
 
             {% if courses %}
 
-            {% for course in courses %}
+                {% for course in courses %}
 
-            <div class="course-card">
+                <div class="course-card">
 
-                {% if course.image %}
+                    <!-- Static Image -->
 
-                <img
-                    src="{{ course.image.url }}"
-                    alt="{{ course.title }}"
-                    class="course-image"
-                >
+                    <img
+                        src="{% static 'images/' %}{{ course.image_name }}"
+                        alt="{{ course.title }}"
+                        class="course-image"
+                    >
 
-                {% else %}
+                    <h3>{{ course.title }}</h3>
 
-                <div class="course-image">
+                    <p>
 
-                    No Image
+                        👨 <strong>Instructor:</strong>
 
-                </div>
+                        {{ course.instructor }}
 
-                {% endif %}
+                    </p>
 
-                <h3>{{ course.title }}</h3>
+                    <p>
 
-                <p>
-                    👨 <strong>Instructor:</strong>
-                    {{ course.instructor }}
-                </p>
+                        📂 <strong>Category:</strong>
 
-                <p>
-                    📂 <strong>Category:</strong>
-                    {{ course.category }}
-                </p>
+                        {{ course.category }}
 
-                <p>
-                    ⏱ <strong>Duration:</strong>
-                    {{ course.duration }}
-                </p>
+                    </p>
 
-                <p class="rating">
+                    <p>
 
-                    ⭐ {{ course.rating }}
+                        ⏱ <strong>Duration:</strong>
 
-                </p>
+                        {{ course.duration }}
 
-                <p>
+                    </p>
 
-                    {{ course.description }}
+                    <p class="rating">
 
-                </p>
+                        ⭐ {{ course.rating }}
 
-                <h4>
+                    </p>
 
-                    ₹ {{ course.price }}
+                    <p>
 
-                </h4>
+                        {{ course.description }}
 
-                {% if user.is_authenticated %}
+                    </p>
 
-                    {% if user in course.students.all %}
+                    <h4>
 
-                        <button class="btn enrolled">
+                        ₹ {{ course.price }}
 
-                            ✓ Enrolled
+                    </h4>
 
-                        </button>
+                    {% if user.is_authenticated %}
+
+                        {% if user in course.students.all %}
+
+                            <button class="btn enrolled">
+
+                                ✓ Enrolled
+
+                            </button>
+
+                        {% else %}
+
+                            <a
+                                href="{% url 'enroll' course.id %}"
+                                class="btn">
+
+                                Enroll Now
+
+                            </a>
+
+                        {% endif %}
 
                     {% else %}
 
                         <a
-                            href="{% url 'enroll' course.id %}"
+                            href="/login/"
                             class="btn">
 
-                            Enroll Now
+                            Login to Enroll
 
                         </a>
 
                     {% endif %}
 
-                {% else %}
+                    <br><br>
 
                     <a
-                        href="/login/"
+                        href="{% url 'course_detail' course.id %}"
                         class="btn">
 
-                        Login to Enroll
+                        View Details
 
                     </a>
 
-                {% endif %}
+                    {% if user.is_authenticated %}
 
-                <br><br>
+                    <br><br>
 
-                <a
-                    href="{% url 'course_detail' course.id %}"
-                    class="btn">
+                    <a
+                        href="{% url 'toggle_wishlist' course.id %}"
+                        class="btn">
 
-                    View Details
+                        ❤️ Wishlist
 
-                </a>
-                {% if user.is_authenticated %}
+                    </a>
 
-<br><br>
+                    {% endif %}
 
-<a href="{% url 'toggle_wishlist' course.id %}" class="btn">
+                </div>
 
-❤️ Wishlist
+                {% endfor %}
 
-</a>
-
-{% endif %}
-
-            </div>
-
-            {% endfor %}
             {% else %}
 
-<p style="text-align:center; font-size:20px;">
+                <p
+                    style="
+                        text-align:center;
+                        font-size:20px;
+                    ">
 
-No courses found.
+                    No courses found.
 
-</p>
+                </p>
 
-{% endif %}
-
+            {% endif %}
 
         </div>
 
