@@ -101,11 +101,19 @@ def profile(request):
     )
 
 def make_admin(request):
-    try:
-        user = User.objects.get(username="sai")
-        user.is_staff = True
-        user.is_superuser = True
-        user.save()
-        return HttpResponse("User 'mani' is now an admin.")
-    except User.DoesNotExist:
-        return HttpResponse("User 'mani' not found.")
+    user = User.objects.get(username="mani")
+
+    user.is_staff = True
+    user.is_superuser = True
+    user.save()
+
+    # Read the user again from the database
+    user.refresh_from_db()
+
+    return HttpResponse(
+        f"""
+        Username: {user.username}<br>
+        is_staff: {user.is_staff}<br>
+        is_superuser: {user.is_superuser}
+        """
+    )
