@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Course, Lesson, LessonProgress, Wishlist, Review
 from .models import Quiz, QuizResult
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from datetime import date
+from .models import Course
 
 
 
@@ -207,3 +211,45 @@ def quiz(request, course_id):
             "questions": questions
         }
     )
+def download_certificate(request, course_id):
+    course = Course.objects.get(id=course_id)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = (
+        f'attachment; filename="{course.title}_certificate.pdf"'
+    )
+
+    p = canvas.Canvas(response)
+
+    p.setFont("Helvetica-Bold", 24)
+    p.drawCentredString(300, 800, "CERTIFICATE OF COMPLETION")
+
+    p.setFont("Helvetica", 16)
+    p.drawCentredString(
+        300,
+        750,
+        f"This certificate is proudly presented to"
+    )
+
+    p.setFont("Helvetica-Bold", 20)
+    p.drawCentredString(300, 710, request.user.get_full_name() or request.user.username)
+
+    p.setFont("Helvetica", 16)
+    p.drawCentredString(
+        300,
+        670,
+        "for successfully completing"
+    )
+
+    p.setFont("Helvetica-Bold", 18)
+    p.drawCentredString(300, 640, course.title)
+
+    p.setFont("Helvetica", 14)
+    p.drawString(60, 100, f"Date: {date.today()}")
+
+    p.drawString(420, 100, "Instructor")
+
+    p.showPage()
+    p.save()
+
+    return response

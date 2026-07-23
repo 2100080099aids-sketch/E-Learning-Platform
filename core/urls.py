@@ -52,5 +52,10 @@ path(
     views.quiz,
     name="quiz",
 ),
+path(
+    'certificate/<int:course_id>/download/',
+    views.download_certificate,
+    name='download_certificate'
+),
 
 ]
