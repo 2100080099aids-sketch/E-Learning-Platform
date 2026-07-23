@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        Welcome, {{ request.user.username }} 👋
+    </h2>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow p-3">
+                <h5>📚 Enrolled Courses</h5>
+                <h2>{{ enrolled_courses }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow p-3">
+                <h5>✅ Completed Lessons</h5>
+                <h2>{{ completed_lessons }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow p-3">
+                <h5>📝 Quiz Results</h5>
+                <h2>{{ quizzes }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow p-3">
+                <h5>📜 Certificates</h5>
+                <h2>{{ certificates }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow p-3">
+                <h5>❤️ Wishlist</h5>
+                <h2>{{ wishlist }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow p-3">
+                <h5>⭐ Reviews</h5>
+                <h2>{{ reviews }}</h2>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
