@@ -165,3 +165,13 @@ class QuizResult(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.course.title}"
+class Certificate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    issued_date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'course')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.course.title}"

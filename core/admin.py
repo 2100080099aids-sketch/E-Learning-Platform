@@ -7,6 +7,7 @@ from .models import (
     Review,
     Quiz,
     QuizResult,
+    Certificate,
 )
 
 admin.site.register(Course)
@@ -16,3 +17,4 @@ admin.site.register(Wishlist)
 admin.site.register(Review)
 admin.site.register(Quiz)
 admin.site.register(QuizResult)
+admin.site.register(Certificate)

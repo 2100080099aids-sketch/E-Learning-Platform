@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from datetime import date
 from .models import Course
+from .models import Certificate
 
 
 
@@ -192,6 +193,13 @@ def quiz(request, course_id):
                 "score": score
             }
         )
+        total_questions = questions.count()
+
+        if total_questions > 0 and (score / total_questions) >= 0.7:
+            Certificate.objects.get_or_create(
+                user=request.user,
+                course=course
+            )
 
         return render(
             request,
@@ -211,8 +219,20 @@ def quiz(request, course_id):
             "questions": questions
         }
     )
+@login_required
 def download_certificate(request, course_id):
     course = Course.objects.get(id=course_id)
+    certificate = Certificate.objects.filter(
+        user=request.user,
+        course=course
+    ).first()
+
+    if not certificate:
+        return HttpResponse(
+            "You have not earned this certificate yet.",
+            status=403
+        )
+    
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = (
